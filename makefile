@@ -1,5 +1,5 @@
 CC = gcc
-TARG = shell
+TARG = memory
 OPTS = -Wall -O -g -Werror
 SRC_DIR = src
 INC_DIR = include

@@ -1,3 +1,5 @@
+#ifndef FREE_LIST_H
+#define FREE_LIST_H
 typedef struct node
 {
 
@@ -11,3 +13,11 @@ typedef struct{
     int size ;
     int magic;
     } header;
+
+#endif
+
+extern node_t * head;
+
+void 
+
+
