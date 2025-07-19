@@ -8,15 +8,16 @@
 node_t * head = NULL;
 int Mem_Init(int sizeOfRegion){
     if (sizeOfRegion<=0){
-        return -11;
+        return -1;
     }
     int pageSize = getpagesize();
-    int pagesRequested = sizeOfRegion / pageSize;
+    // page size of mac book is 16384 bytes
+    
+    int pagesRequested = (sizeOfRegion / pageSize)+1;
     int memoryRequest = pageSize * pagesRequested;
     head = mmap(NULL, memoryRequest, PROT_READ | PROT_WRITE,
                         MAP_ANON | MAP_PRIVATE, -1, 0);
-    head ->size = memoryRequest - sizeof(node_t);
-    head ->next = NULL;
+    
 
 
     if (head == MAP_FAILED) {
@@ -24,6 +25,8 @@ int Mem_Init(int sizeOfRegion){
         return -1;
     }
     else{
+    head ->size = memoryRequest - sizeof(node_t);
+    head ->next = NULL;
         return 0;
     }
 
@@ -35,12 +38,15 @@ int Mem_Init(int sizeOfRegion){
 
 }
 
-void * Mem_Alloc
+void * Mem_Alloc(int size){
+    return first_fit(size);
+}
 
 
 
 int main(int argc , char*argv[]){
-    printf("%d",Mem_Init(100));
+   // Allocate Memory
+   Mem_Init(100);
 
 }
 

@@ -17,11 +17,12 @@ typedef struct{
     int magic;
     } header;
 
-#endif
+
 
 extern node_t * head;
 
 void * first_fit (int memoryRequest);
+#endif
 
 
 
