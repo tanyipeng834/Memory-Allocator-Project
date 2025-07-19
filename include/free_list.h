@@ -1,5 +1,8 @@
 #ifndef FREE_LIST_H
 #define FREE_LIST_H
+#define MAGIC_NUMBER 1234567
+
+// This is used to keep track of all free memory regions in VM.
 typedef struct node
 {
 
@@ -8,7 +11,7 @@ typedef struct node
 
     
 } node_t;
-
+// This header is used for allocated memory regions.
 typedef struct{
     int size ;
     int magic;
@@ -18,6 +21,10 @@ typedef struct{
 
 extern node_t * head;
 
-void 
+void * first_fit (int memoryRequest);
+
+
+
+
 
 

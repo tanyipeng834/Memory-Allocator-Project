@@ -35,6 +35,8 @@ int Mem_Init(int sizeOfRegion){
 
 }
 
+void * Mem_Alloc
+
 
 
 int main(int argc , char*argv[]){
