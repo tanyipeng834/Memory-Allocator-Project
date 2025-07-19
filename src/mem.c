@@ -43,10 +43,39 @@ void * Mem_Alloc(int size){
 }
 
 
+void Mem_Dump()
+{
+    if(head!=NULL){
+        node_t * walk = head;
+        while(walk!=NULL)
+        {
+
+            printf("Memory Block Available: %d",walk->size);
+
+            walk = walk->next;
+
+
+        }
+
+
+
+    }
+    else{
+        printf("Memory has not been allocated for the heap");
+    }
+    
+
+}
+
+
 
 int main(int argc , char*argv[]){
    // Allocate Memory
-   Mem_Init(100);
+   Mem_Init(1000);
+
+   Mem_Dump();
+
+   
 
 }
 
