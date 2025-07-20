@@ -3,6 +3,7 @@ TARG = memory
 OPTS = -Wall -O -g -Werror
 SRC_DIR = src
 INC_DIR = include
+TEST_DIR = test
 
 
 SRC_FILES = $(wildcard $(SRC_DIR)/*.c)

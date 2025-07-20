@@ -14,7 +14,7 @@ void * first_fit(int memory_request)
 {   
     int total_memory_request = sizeof(header);
     total_memory_request = total_memory_request+ ((memory_request/8)+1)*8;
-    printf("%d",total_memory_request);
+    printf("Total Memory needed: %d\n",total_memory_request);
     
     node_t ** link = &head;
 
@@ -30,7 +30,7 @@ void * first_fit(int memory_request)
             if(current_block->size>total_memory_request)
             {
                 
-                node_t * remainder = (node_t *)(char *) current_block + total_memory_request;
+                node_t * remainder = (node_t *)((char *) current_block + total_memory_request);
                 // This will be the new head
                 remainder ->size = total_memory_left;
                 remainder ->next = NULL;
@@ -50,7 +50,7 @@ void * first_fit(int memory_request)
                 
 
 
-                return (void*)h+1;
+                return (void*)(h+1);
 
 
 
