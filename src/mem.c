@@ -110,6 +110,7 @@ void Mem_Dump()
         {
 
             printf("Memory Block Available: %d\n",walk->size);
+            printf("Current Pointer Address: %p\n",walk);
 
             walk = walk->next;
 
@@ -140,24 +141,63 @@ int mem_available(){
     return memory_available;
 }
 
+void coalesc_memory(node_t * head)
+{
+    node_t *walk = head;
+    // this is used for traversing the list till the 2nd last list.
+    while(walk && walk->next)
+    {
+
+      
+     
+      char * current_node = (char*)(walk) +sizeof(node_t);
+      printf("Current pointer: %p\n",current_node);
+      printf("Next Pointer %p\n",walk->next);
+
+      if(current_node == (char*)walk->next)
+      {
+       
+        
+        walk->size +=sizeof(node_t) + walk->next->size;
+        walk->next= walk->next->next;
+
+      }
+      else{
+        walk = walk->next;
+      }
+
+    
+
+
+    }
+
+}
+
 
 
 int main(int argc , char*argv[]){
    // Allocate Memory
    Mem_Init(1000);
 
-   Mem_Dump();
+   
     // Take into account the null character of hello for testing
    
    char *string = (char *)Mem_Alloc(sizeof(char)*6);
+   // This would 
+    
     strcpy(string, "hello");
+    Mem_Dump();
 
-   printf("character here:%c\n",*string);
+    Mem_Free(string);
 
-   
-   Mem_Free(string);
-   // This should print out the free space available.
-   Mem_Dump();
+    coalesc_memory(head);
+    printf("After Coalescing memory: \n");
+    Mem_Dump();
+
+
+    
+
+  
 
 
    

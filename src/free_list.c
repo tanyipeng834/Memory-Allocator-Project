@@ -45,7 +45,7 @@ void * first_fit(int memory_request)
 
             }
                 header * h = (header *) current_block;
-                h ->size = memory_request;
+                h ->size = total_memory_request;
                 h ->magic = MAGIC_NUMBER;
                 
 
