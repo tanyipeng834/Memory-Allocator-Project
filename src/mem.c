@@ -12,7 +12,6 @@ int Mem_Init(int sizeOfRegion){
         return -1;
     }
     int pageSize = getpagesize();
-    // page size of mac book is 16384 bytes
     
     int pagesRequested = (sizeOfRegion / pageSize)+1;
     int memoryRequest = pageSize * pagesRequested;
@@ -29,7 +28,7 @@ int Mem_Init(int sizeOfRegion){
     else{
     head ->size = memoryRequest - sizeof(node_t);
     head ->next = NULL;
-        return 0;
+    return 0;
     }
 
 
@@ -75,6 +74,7 @@ int Mem_Free(void * ptr)
             }
             free_node ->next=*current_block;
             *current_block= free_node;
+            coalesc_memory(head);
             return 0;
 
 
@@ -116,6 +116,7 @@ void Mem_Dump()
 
 
         }
+        printf("-----------------------------------\n");
 
 
 
@@ -148,17 +149,14 @@ void coalesc_memory(node_t * head)
     while(walk && walk->next)
     {
 
+      char * current_node = (char*)(walk) +sizeof(node_t) + walk->size;
       
-     
-      char * current_node = (char*)(walk) +sizeof(node_t);
-      printf("Current pointer: %p\n",current_node);
-      printf("Next Pointer %p\n",walk->next);
 
       if(current_node == (char*)walk->next)
       {
        
         
-        walk->size +=sizeof(node_t) + walk->next->size;
+        walk->size  += walk->next->size;
         walk->next= walk->next->next;
 
       }
@@ -178,6 +176,7 @@ void coalesc_memory(node_t * head)
 int main(int argc , char*argv[]){
    // Allocate Memory
    Mem_Init(1000);
+   Mem_Dump();
 
    
     // Take into account the null character of hello for testing
@@ -190,8 +189,8 @@ int main(int argc , char*argv[]){
 
     Mem_Free(string);
 
-    coalesc_memory(head);
-    printf("After Coalescing memory: \n");
+    
+    
     Mem_Dump();
 
 

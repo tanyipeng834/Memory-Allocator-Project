@@ -29,9 +29,7 @@ void * first_fit(int memory_request)
             
             if(current_block->size>total_memory_request)
             {
-                
-                node_t * remainder = (node_t *)((char *) current_block + total_memory_request);
-                // This will be the new head
+                node_t * remainder = (node_t *)((char *) current_block + total_memory_request +sizeof(node_t));
                 remainder ->size = total_memory_left;
                 remainder ->next = NULL;
 
