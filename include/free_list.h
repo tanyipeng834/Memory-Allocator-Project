@@ -22,6 +22,7 @@ typedef struct{
 extern node_t * head;
 
 void * first_fit (int memoryRequest);
+void * best_fit (int memoryRequest);
 #endif
 
 

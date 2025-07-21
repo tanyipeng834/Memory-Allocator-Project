@@ -40,7 +40,7 @@ int Mem_Init(int sizeOfRegion){
 }
 
 void * Mem_Alloc(int size){
-    return first_fit(size);
+    return best_fit(size);
 }
 
 
@@ -149,7 +149,7 @@ void coalesc_memory(node_t * head)
     while(walk && walk->next)
     {
 
-      char * current_node = (char*)(walk) +sizeof(node_t) + walk->size;
+      char * current_node = (char*)(walk) + walk->size;
       
 
       if(current_node == (char*)walk->next)
@@ -189,9 +189,9 @@ int main(int argc , char*argv[]){
 
     Mem_Free(string);
 
-    
-    
     Mem_Dump();
+
+    
 
 
     
