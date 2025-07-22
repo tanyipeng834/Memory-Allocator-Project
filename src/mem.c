@@ -4,6 +4,8 @@
 #include <sys/mman.h>
 #include <string.h>
 #include "free_list.h"
+#include <assert.h>
+
 
 
 node_t * head = NULL;
@@ -175,21 +177,14 @@ void coalesc_memory(node_t * head)
 
 int main(int argc , char*argv[]){
    // Allocate Memory
-   Mem_Init(1000);
-   Mem_Dump();
-
-   
-    // Take into account the null character of hello for testing
-   
-   char *string = (char *)Mem_Alloc(sizeof(char)*6);
-   // This would 
+    Mem_Init(1000);
+    size_t memory_size = getpagesize() - sizeof(node_t);
+    Mem_Dump();
+    char* test_string = test_malloc("hello",memory_size);
     
-    strcpy(string, "hello");
-    Mem_Dump();
+    test_free(test_string,mem_available());
 
-    Mem_Free(string);
-
-    Mem_Dump();
+    
 
     
 
@@ -200,6 +195,41 @@ int main(int argc , char*argv[]){
 
 
    
+
+}
+
+
+char* test_malloc(char * test_string,int initial_memory){
+
+    size_t str_len = strlen(test_string);
+
+    char * string = (char *)Mem_Alloc(sizeof(char)*str_len);
+
+    strcpy(string,test_string);
+
+    size_t total_memory_request = sizeof(node_t) +((str_len*sizeof(char)/8)+1)*8;
+
+    assert (mem_available() == initial_memory-total_memory_request);
+
+    return string;
+
+
+    
+
+}
+
+void test_free(char* test_string,int initial_memory)
+{
+   
+    size_t str_len = strlen(test_string);
+    Mem_Free(test_string);
+
+    size_t total_memory_return =  sizeof(node_t) +((str_len*sizeof(char)/8)+1)*8;
+
+    assert(mem_available()==initial_memory+total_memory_return);
+
+
+
 
 }
 

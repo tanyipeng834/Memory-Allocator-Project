@@ -1,34 +1,44 @@
 CC = gcc
 TARG = memory
+TEST_TARG = run_tests
 OPTS = -Wall -O -g -Werror
 SRC_DIR = src
 INC_DIR = include
 TEST_DIR = test
-
-
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
-
-# Object files corresponding to the source files
-OBJS = $(SRC_FILES:.c=.o)
-
+BUILD_DIR = build
 
 CFLAGS = -I$(INC_DIR) $(OPTS)
 
-# Rule to compile the object files
-$(TARG).o: $(SRC_DIR)/$(TARG).c
-	$(CC) $(CFLAGS) -c $< -o $@
+SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+SRC_OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC_FILES))
 
-$(TARG): $(OBJS)
-	$(CC) -o $(TARG) $(CFLAGS) $(OBJS)
+TEST_FILES = $(wildcard $(TEST_DIR)/*.c)
+TEST_OBJS = $(patsubst $(TEST_DIR)/%.c, $(BUILD_DIR)/%.test.o, $(TEST_FILES))
 
-# Rule to create object files from the source files
-$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Default target
+# Default
 all: $(TARG)
 
+# Create build dir
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
+# Main target
+$(TARG): $(BUILD_DIR) $(SRC_OBJS)
+	$(CC) -o $@ $(CFLAGS) $(SRC_OBJS)
 
+# Compile source files
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Compile test files
+$(BUILD_DIR)/%.test.o: $(TEST_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Run tests
+test: $(BUILD_DIR) $(SRC_OBJS) $(TEST_OBJS)
+	$(CC) -o $(TEST_TARG) $(CFLAGS) $(SRC_OBJS) $(TEST_OBJS)
+	./$(TEST_TARG)
+
+# Clean
 clean:
-	rm -f $(SRC_DIR)/*.o *.txt $(TARG)
+	rm -rf $(BUILD_DIR) $(TARG) $(TEST_TARG)
