@@ -7,7 +7,8 @@
 #include <assert.h>
 
 
-
+extern void* memory_base;
+extern int full_memory_space;
 node_t * head = NULL;
 int Mem_Init(int sizeOfRegion){
     if (sizeOfRegion<=0){
@@ -17,6 +18,7 @@ int Mem_Init(int sizeOfRegion){
     
     int pagesRequested = (sizeOfRegion / pageSize)+1;
     int memoryRequest = pageSize * pagesRequested;
+    printf("%d",memoryRequest);
     head = mmap(NULL, memoryRequest, PROT_READ | PROT_WRITE,
                         MAP_ANON | MAP_PRIVATE, -1, 0);
     
@@ -28,7 +30,9 @@ int Mem_Init(int sizeOfRegion){
         return -1;
     }
     else{
+
     head ->size = memoryRequest - sizeof(node_t);
+    printf("Head Size:%d",head->size);
     head ->next = NULL;
     return 0;
     }
@@ -178,11 +182,16 @@ void coalesc_memory(node_t * head)
 int main(int argc , char*argv[]){
    // Allocate Memory
     Mem_Init(1000);
+    buddy_init();
     size_t memory_size = getpagesize() - sizeof(node_t);
-    Mem_Dump();
+
+    printf(" full_memory_size%d",full_memory_space);
+    printf("start_pointer: %p",memory_base);
+    printf("pervious pointer:%p",head);
+   
     char* test_string = test_malloc("hello",memory_size);
     
-    test_free(test_string,mem_available());
+    test_free(test_string,Mem_Available());
 
     
 

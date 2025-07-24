@@ -12,6 +12,9 @@ typedef struct node
     
 } node_t;
 // This header is used for allocated memory regions.
+
+void * memory_base; 
+int full_memory_space;
 typedef struct{
     int size ;
     int magic;
@@ -20,11 +23,17 @@ typedef struct{
 
 
 
+
+
 // This is the  head of the free list.
 extern node_t * head;
 
+
+
 void * first_fit (int memoryRequest);
 void * best_fit (int memoryRequest);
+// Return status code based on the status of memory being allocated.
+int buddy_init();
 #endif
 
 

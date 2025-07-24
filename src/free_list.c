@@ -147,3 +147,28 @@ void * best_fit(int memory_request)
 }
 
 
+int buddy_init()
+{
+    if(head ==NULL){
+        perror("Memory has not been mapped to the virtual address space.");
+        return -1;
+        
+    }
+    // If we are using buddy alloaction then, we no longer need the free list header
+    else{
+    
+    full_memory_space = head->size + sizeof(node_t); 
+    
+    memory_base = (char*)(head)-sizeof(node_t);
+
+    return 0;
+    
+    
+    }
+
+    
+    
+
+}
+
+
