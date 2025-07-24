@@ -19,6 +19,8 @@ typedef struct{
 
 
 
+
+// This is the  head of the free list.
 extern node_t * head;
 
 void * first_fit (int memoryRequest);

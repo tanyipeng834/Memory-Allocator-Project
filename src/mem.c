@@ -130,7 +130,7 @@ void Mem_Dump()
 
 }
 
-int mem_available(){
+int Mem_Available(){
     size_t memory_available =0;
     if(head!=NULL)
     {
@@ -209,7 +209,7 @@ char* test_malloc(char * test_string,int initial_memory){
 
     size_t total_memory_request = sizeof(node_t) +((str_len*sizeof(char)/8)+1)*8;
 
-    assert (mem_available() == initial_memory-total_memory_request);
+    assert (Mem_Available() == initial_memory-total_memory_request);
 
     return string;
 
@@ -226,7 +226,7 @@ void test_free(char* test_string,int initial_memory)
 
     size_t total_memory_return =  sizeof(node_t) +((str_len*sizeof(char)/8)+1)*8;
 
-    assert(mem_available()==initial_memory+total_memory_return);
+    assert(Mem_Available()==initial_memory+total_memory_return);
 
 
 
