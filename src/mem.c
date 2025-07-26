@@ -37,7 +37,7 @@ int Mem_Init(int sizeOfRegion){
     head ->size = memoryRequest - sizeof(node_t);
     printf("Head Size:%d",head->size);
     head ->next = NULL;
-    buddy_init();
+    
     return 0;
     }
 
@@ -52,7 +52,7 @@ int Mem_Init(int sizeOfRegion){
 void * Mem_Alloc(int size){
 
     
-    return buddy_allocation(size,buddy_head);
+    return first_fit(size);
 }
 
 
@@ -188,20 +188,17 @@ void coalesc_memory(node_t * head)
 int main(int argc , char*argv[]){
    // Allocate Memory
     Mem_Init(1000);
+    size_t memory_size = getpagesize() - sizeof(node_t);
+    Mem_Dump();
+    char* test_string = test_malloc("hello",memory_size);
     
-    //size_t memory_size = getpagesize() - sizeof(node_t);
+    test_free(test_string,Mem_Available());
 
-    char * string = Mem_Alloc(6);
-    printf("string memory %p",string);
-
-    //memcpy(string,"hello",strlen("hello")+1);
+    
 
     
    
-    //char* test_string = test_malloc("hello",memory_size);
-    
-    //test_free(test_string,Mem_Available());
-
+   
     
 
     

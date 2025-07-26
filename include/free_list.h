@@ -46,6 +46,7 @@ void * first_fit (int memoryRequest);
 void * best_fit (int memoryRequest);
 // Return status code based on the status of memory being allocated.
 int buddy_init();
+int buddy_free(void* ptr);
 
 #endif
 

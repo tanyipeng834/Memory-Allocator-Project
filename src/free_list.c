@@ -256,33 +256,38 @@ void * buddy_allocation(int memory_size,block_header_t* current_block)
 
 int buddy_free(void* ptr){
 
+    if (!ptr) return -1;
 
-    if(ptr !=NULL)
-    {
-       block_header_t* block = ((block_header_t*)ptr) - 1;
+    block_header_t* block = ((block_header_t*)ptr) - 1;
+    block->is_free = 1;
+    
+       while (1) {
         size_t block_size = block->size;
-        int bit_mask = (1 << (int)log2(block_size)); 
         uintptr_t block_addr = (uintptr_t)block;
-        uintptr_t buddy_addr = block_addr ^ bit_mask;
-
+        uintptr_t buddy_addr = block_addr ^ block_size;
         block_header_t* buddy = (block_header_t*)buddy_addr;
 
-
-        if(buddy !=NULL && buddy->is_free)
-        {
-            block = (block_addr<buddy_addr)? block:buddy;
-            block->is_free =1;
-            block->size = block_size*=2;
-            return 0;
-
+        
+        if (!(buddy->is_free && buddy->size == block_size)) {
+            break;  
         }
 
+        
+        block = (block_addr < buddy_addr) ? block : buddy;
+        block->size = block_size * 2;
+        block->is_free = 1;
 
-
-
+        
     }
 
-    return -1;
+    return 0;
+
+
+
+
+    
+
+    
 
 }
 
