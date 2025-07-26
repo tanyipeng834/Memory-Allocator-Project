@@ -13,7 +13,10 @@ void test_free(char* test_string,int initial_memory);
 
 void Mem_Dump();
 void coalesc_memory(node_t * head);
+void * buddy_allocation(int memory_size,block_header_t* current_block);
 
+extern block_header_t* buddy_head;
+extern size_t memory_base_size;
 
 
 #endif
