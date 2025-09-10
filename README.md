@@ -1,5 +1,5 @@
 
-# Memory Alloctor Project
+# Memory Allocator Project
 
 
 This Memory Alloctor Project is based on on the OSTEP textbook and it's projects with the specifications listed [here](https://pages.cs.wisc.edu/~cs537-3/Projects/p3a.html).
